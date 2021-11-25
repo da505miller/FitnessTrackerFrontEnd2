@@ -1,0 +1,20 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+body {
+    height: 100vh;
+    background-color: rgb(216, 225, 231);
+}
+
+#title {
+    background-color: lightblue;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#app {
+    height: 100%;
+  }
