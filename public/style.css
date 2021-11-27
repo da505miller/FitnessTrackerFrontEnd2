@@ -35,3 +35,37 @@ body {
     justify-content: space-evenly;
   
   }
+
+  #app {
+    height: 100%;
+  }
+#post-box {
+  padding: 50px;
+
+  
+}
+#post {
+  border: solid;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  padding: 50px;
+}
+
+.post-title {
+
+  font-family: fantasy;
+  
+}
+
+.container {
+  padding: 10px;
+}
+
+.form-group {
+  padding: 10px;
+  margin-bottom: 5px;;
+}
+
+.list-group {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
