@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Title, Home, Login, Logout, Register, Routines, Myroutines, Activities } from './Components';
+import { Title, Home, Login, Logout, Register, Routines, Myroutines, Newroutine, Activities } from './Components';
 
 const App = () => {
 
@@ -52,6 +52,9 @@ const App = () => {
                                                                  setRoutines={setRoutines}
                                                                  activities={activities}
                                                                  setActivities={setActivities} />} />
+            <Route path="/newroutine" render={(routeProps) => <Newroutine {...routeProps} token={token}
+                                                                routines={routines}
+                                                                setRoutines={setRoutines} />} />
             <Route path="/activities" render={(routeProps) => <Activities {...routeProps}
                                                                 token={token}
                                                                 activities={activities}

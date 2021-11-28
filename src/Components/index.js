@@ -4,7 +4,7 @@ import { Login, Logout } from './login';
 import Home from './home';
 import Activities from './activities';
 import Routines from './routines';
-import Myroutines from './myroutines';
+import { Myroutines, Newroutine } from './myroutines';
 
 
 export {Title,
@@ -15,4 +15,5 @@ export {Title,
     Activities,
     Routines,
     Myroutines,
+    Newroutine,
 }
