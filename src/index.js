@@ -10,6 +10,7 @@ const App = () => {
     const [user, setUser] = useState(null);
     const [routines, setRoutines] = useState([]);
     const [activities, setActivities] = useState([]);
+    const [myRoutines, setMyRoutines] = useState([]);
 
 
     // As soon as page hits screen it will take the token from local storage (if there is one) and set it to storedToken.
@@ -48,8 +49,8 @@ const App = () => {
                                                                 setActivities={setActivities} />} />
             <Route path="/myroutines" render={(routeProps) => <Myroutines {...routeProps}
                                                                  token={token}
-                                                                 routines={routines}
-                                                                 setRoutines={setRoutines}
+                                                                 myRoutines={routines}
+                                                                 setMyRoutines={setRoutines}
                                                                  activities={activities}
                                                                  setActivities={setActivities} />} />
             <Route path="/newroutine" render={(routeProps) => <Newroutine {...routeProps} token={token}

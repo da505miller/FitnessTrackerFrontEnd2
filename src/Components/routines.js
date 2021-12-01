@@ -30,8 +30,8 @@ const Routines = (props) => {
                                 <div className="form-group list-group-item-info">
                                     Created by: { element.creatorName }
                                 </div>
-                                <div className="form-group bg-success">
-                                    Goal: {element.goal }
+                                <div className="form-group list-group-item-info">
+                                    Goal: { element.goal }
                                 </div>
                                 {/* <div className="form-group bg-success list-group-item-text">
                                     Activity: { element.activity }
