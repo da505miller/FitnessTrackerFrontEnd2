@@ -88,6 +88,7 @@ const Logout = ({ token, setToken, history }) => {
                 if (storageToken) {
                     localStorage.removeItem("token");
                     setToken(null);
+                    alert('Have a nice life. Goodbye');
                     history.push("/login");
                     }
             }} 

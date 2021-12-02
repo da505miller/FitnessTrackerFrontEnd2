@@ -17,6 +17,8 @@ const Routines = (props) => {
 
     }, []);
 
+    
+
     return (<div id="post-box" className="form-group">
                 <h1 className="post-title text-center">Public Routines</h1>
                 <div id="post" className="container">
@@ -36,9 +38,9 @@ const Routines = (props) => {
                                 {/* <div className="form-group bg-success list-group-item-text">
                                     Activity: { element.activity }
                                 </div> */}
-                                {element.activities.map((activity) => {
+                                {element.activities.map((activity, index) => {
                                     return (
-                                        <div className="activity">
+                                        <div key={index} className="activity">
                                             <h4 className="form-group bg-success">Activities: {activity.name}</h4>
                                             <p>....Activity Description: {activity.description}</p>
                                             <p>....Duration: {activity.duration}</p>

@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Title, Home, Login, Logout, Register, Routines, Myroutines, Newroutine, Activities } from './Components';
+import { Title, Home, Login, Logout, Register, Routines, MyRoutines, Newroutine, Activities, NewActivity, AddActivityToRoutine } from './Components';
+import { fetchPublicRoutines } from './API';
 
 const App = () => {
 
@@ -21,6 +22,28 @@ const App = () => {
             setToken(storedToken);
         }
     }, []);
+
+    useEffect(() => {
+        async function getActivities(){
+          const res =  await fetch('https://fitnesstrac-kr.herokuapp.com/api/activities', {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }).then(response => response.json())
+            .then(result => {
+              return result;
+            })
+            .catch(console.error);
+          console.log(res);
+          setActivities(res);
+      }
+      getActivities();
+      }, [])
+
+      useEffect(async ()=> {                  
+        const results = await fetchPublicRoutines();     
+        setRoutines( results );
+    }, []); 
 
 
     return( 
@@ -47,12 +70,14 @@ const App = () => {
                                                                 setRoutines={setRoutines}
                                                                 activities={activities}
                                                                 setActivities={setActivities} />} />
-            <Route path="/myroutines" render={(routeProps) => <Myroutines {...routeProps}
+            <Route path="/myroutines" render={(routeProps) => <MyRoutines {...routeProps}
                                                                  token={token}
-                                                                 myRoutines={routines}
-                                                                 setMyRoutines={setRoutines}
+                                                                 myRoutines={myRoutines}
+                                                                 setMyRoutines={setMyRoutines}
                                                                  activities={activities}
-                                                                 setActivities={setActivities} />} />
+                                                                 setActivities={setActivities}
+                                                                 user={user}
+                                                                 setUser={setUser} />} />
             <Route path="/newroutine" render={(routeProps) => <Newroutine {...routeProps} token={token}
                                                                 routines={routines}
                                                                 setRoutines={setRoutines} />} />
@@ -60,6 +85,17 @@ const App = () => {
                                                                 token={token}
                                                                 activities={activities}
                                                                 setActivities={setActivities} />} />
+            <Route path="/newactivity" render={(routeProps) => <NewActivity {...routeProps}
+                                                                token={token}
+                                                                activities={activities}
+                                                                setActivities={setActivities} />} />
+            <Route path="/addactivitytoroutine" render={(routeProps) => <AddActivityToRoutine {...routeProps}
+                                                                token={token}
+                                                                activities={activities}
+                                                                setActivities={setActivities}
+                                                                routines={routines}
+                                                                user={user}
+                                                                setUser={setUser} />} />
         </Router>
 
         {!token ? <h3>Please register or login to use the app unless you are just visiting.</h3> : null}

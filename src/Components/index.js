@@ -2,9 +2,9 @@ import Title from './title';
 import Register from './register';
 import { Login, Logout } from './login';
 import Home from './home';
-import Activities from './activities';
+import { Activities, NewActivity } from './activities';
 import Routines from './routines';
-import { Myroutines, Newroutine } from './myroutines';
+import { MyRoutines, Newroutine, AddActivityToRoutine } from './myroutines';
 
 
 export {Title,
@@ -13,7 +13,9 @@ export {Title,
     Logout,
     Home,
     Activities,
+    NewActivity,
     Routines,
-    Myroutines,
+    MyRoutines,
     Newroutine,
+    AddActivityToRoutine,
 }

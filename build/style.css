@@ -1,0 +1,71 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+body {
+    height: 100vh;
+    background-color: rgb(216, 225, 231);
+}
+
+#title {
+    background-color: lightblue;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#app {
+    height: 100%;
+  }
+
+  .link {
+    color: crimson;
+    background-color: rgb(159, 241, 224);
+    padding: 10px;
+    display: inline-block;
+    border: solid white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+  #link-container {
+    border: solid;
+    /* text-align: center; */
+    display: flex;
+    justify-content: space-evenly;
+  
+  }
+
+  #app {
+    height: 100%;
+  }
+#post-box {
+  padding: 50px;
+
+  
+}
+#post {
+  border: solid;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  padding: 50px;
+}
+
+.post-title {
+
+  font-family: fantasy;
+  
+}
+
+.container {
+  padding: 10px;
+}
+
+.form-group {
+  padding: 10px;
+  margin-bottom: 5px;;
+}
+
+.list-group {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+

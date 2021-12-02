@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { fetchAllActivities } from '../API';
+import { useHistory, Link } from 'react-router-dom';
+import { createActivity, fetchAllActivities } from '../API';
 
 
 const Activities = (props) => {
@@ -17,7 +17,13 @@ const Activities = (props) => {
 
     }, []);
 
-    return (<div id="post-box" className="form-group">
+
+    return (
+            <div id="post-box" className="form-group">
+            <br></br>
+            {token ? <Link to="/newactivity" className="link">Create A New Activity</Link> : null}
+            <br></br>
+            <br />
                 <h1 className="post-title text-center">Activities</h1>
                 <div id="post" className="container">
                     {activities.map((element, index) => {
@@ -48,5 +54,48 @@ const Activities = (props) => {
 
 }
 
+const NewActivity = ({setActivities, token, activities}) => {
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const history = useHistory();
 
-export default Activities;
+    return(
+        <form onSubmit={async (event) => {
+            event.preventDefault();
+            try {
+                const response = await createActivity(token, name, description);
+                console.log("new activity is: ", response);
+                if (response.error) {
+                    alert('That activity already exists, try again!');
+                    setName("");
+                    setDescription("");
+                }
+                else {
+                setActivities([...activities, response]);
+                history.push("/activities")
+                }
+            }
+            catch (error) {
+                console.error(error)
+            }
+        }}>
+                <h3>Make a new activity</h3>
+
+                <div className="form-group">
+                    <label>Name</label>
+                    <input onChange={(event) => setName(event.target.value)} type="text" className="form-control" placeholder="Name" required />
+                </div>
+
+                <div className="form-group">
+                    <label>Description</label>
+                    <input onChange={(event) => setDescription(event.target.value)} type="text" className="form-control" placeholder="Description" required />
+                </div>
+                <button type="submit" className="btn btn-primary btn-block">Create New Activity</button>
+                
+            </form>
+    )
+}
+
+
+export{ Activities,
+    NewActivity };

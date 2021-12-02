@@ -11,171 +11,84 @@ import { userData,
     deleteActivityFromRoutine } from '../API';
 import { Link } from 'react-router-dom';
 
-const Myroutines = (props) => {
-    const routines = props.routines;
-    const setRoutines = props.setRoutines;
-    const token = props.token;
-    const history = props.history;
 
-    const [userRoutines, setUserRoutines] = useState([]);
-    const [user, setUser] = useState([]);
-
-    const [displayRoutines, setDisplayRoutines] = useState([]);
-
-    // useEffect(async () => {
-        
-    //     const result = await getUserRoutines(token);
-    //     setUserRoutines(result);
-    //     console.log(userRoutines);
     
-    // }, []);
 
-    // useEffect(async () => {
-    //     if(token) {
-    //     const getUser = await userData(token)
-    //     console.log('getUser', getUser);
-    //     const userRoutineData = await getUserRoutines(getUser, token)
-    //     console.log(userRoutineData);
-        
 
-    //     }
- 
-    //  }, [])
 
-    useEffect(() => {
+const MyRoutines = ({token, user, setUser }) => {
+    const [myRoutines, setMyRoutines] = useState([]);
+    const history = useHistory();
+
+    useEffect(async() => {
         if(token) {
-            userData(token, setUser);
+            const user = await userData(token, setUser);
+            const routines = await getUserRoutines(user.username, token)
+            console.log('these are my routines', routines)
+            setMyRoutines(routines);
+            
         }
     }, [token]);
+    
+    return  (
+            <div>
+            <br></br>
+            <br></br>
+            <Link to="/newroutine" className="link">Create A New Routine</Link>
 
-    useEffect(() => {
-        if(user.username) {
-            getUserRoutines(user, setUserRoutines, setDisplayRoutines);
-            console.log("user routines: ", userRoutines)
-        }
-    }, [user]);
+            <h1 className="post-title text-center"> CURRENT USER'S ROUTINES </h1>
 
-    console.log("user routines: ", userRoutines)
-
-    return (<div id="post-box" className="form-group">
-    <h1 className="post-title text-center">Current User Routines</h1>
-    <div id="post" className="container">
-        {displayRoutines.map((element, index) => {
-
-            return (
-                <div key={index} className="containter">
-                    <h2 className="list-group-item-heading">
-                        Routine Id: { element.id }
-                    </h2>
-                    <div className="form-group list-group-item-info">
-                        Creator Name: { element.creatorName }
+            {myRoutines.map((routine, index) => {
+                return (
+                    <div key={index} id="post" className="container">
+                        <h4>Name: {routine.name}</h4>
+                        <ul>
+                            <li>Activity Id: {routine.id}</li>
+                            <li>Created By: {routine.creatorName}</li>
+                            <li>Goal: {routine.goal}</li>
+                            <li>isPublic: {routine.isPublic}</li>
+                            <li>Activities: {routine.activities}</li>
+                            <li>Activities: </li>
+                                {myRoutines.activities ? (myRoutines.activities.map((activity, actindex) => (
+                                    <ul key={actindex}>
+                                        <li>Activity Name: {activity.name}</li>
+                                        <ul>
+                                            <li>Description: {activity.description}</li>
+                                            <li>Count: {activity.count}</li>
+                                            <li>Duration: {activity.duration}</li>
+                                        </ul>
+                                    </ul>
+                                ))) : 
+                                (<p>none</p>)}
+                                
+                                <ul>
+                                        <button
+                                            onClick={async () => {
+                                            const routineId = routine.id
+                                            const result = await deleteRoutine(token, routineId);
+                                            const user = userData(token, setUser)
+                                            console.log('deleted result is: ', result);
+                                            getUserRoutines(user.username, token);
+                                            alert('Routine deleted!');
+                                            history.push('/myroutines');
+                                            }}
+                                            type="submit"
+                                            className="btn btn-primary btn-block">
+                                            Delete Routine
+                                        </button>
+                                        <Link to="/addactivitiestoroutine" className="link">Add an Activity</Link>
+                                </ul>
+                        </ul>
                     </div>
-                    <div className="form-group list-group-item-info">
-                        isPublic: {element.isPublic }
-                    </div>
-                    <div className="form-group list-group-item-info">
-                        Name: { element.name}
-                    </div>
-                    <div className="form-group list-group-item-info">
-                        Goal: {element.goal }
-                    </div>
-                    <div className="form-group">
-                                    <button 
-                                    onClick={async (event) => {
-                                        
-                                        try {
-                                             // calls api function to delete routine and then fetches all the routines of user.
-                                             // When delete button is pressed the post should delete from main routines page and push user to the routines page
-                                            
-                                            const response = await deleteRoutine(token, posts._id)
-                                            console.log(response)
-                                            getUserRoutines(userRoutines);
-                                            
-                                            history.push("/routines")
-                                            
-                                        }
-                                        catch (err) {
-                                            console.error("trouble deleting routine", err)
-                                        }
-                                    }} 
-                                    
-                                    type="submit" className="btn btn-primary">Delete Post</button>
-                                </div>
-                    <br></br>
-                </div>)
-        })}
-    </div>
-    <Link to="/newroutine" className="link">Create Routine</Link>
-</div>)
+                )
+            })}
+            
 
-
-
+            </div>
+            )
+        
 }
 
-// const Myroutines = (props) => {
-
-//     const myRoutines = props.myRoutines;
-//     const token = props.token;
-//     const setMyRoutines = props.setMyRoutines;
-//     let userObj = {};
-
-//     async function getMe() {
-//         const response = await userData(token);
-//         userObj = response;
-//     }
-    
-//     getMe();
-
-//     async function getMyRoutines() {
-//         const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/${userObj.username}/routines`, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${token}`
-//         },
-//       })
-//       const result = await response.json();
-//       if (result.error) throw result.error;
-//       console.log(result);
-//       setMyRoutines(result);
-//     }
-    
-    
-//     useEffect(() => {
-//         getMyRoutines();
-//     },[]);
-
-//     return (<div id="post-box" className="form-group">
-//     <h1 className="post-title text-center">Current User Routines</h1>
-//     <div id="post" className="container">
-//         {myRoutines.map((element, index) => {
-
-//             return (
-//                 <div key={index} className="containter">
-//                     <h2 className="list-group-item-heading">
-//                         Routine Id: { element.id }
-//                     </h2>
-//                     <div className="form-group list-group-item-info">
-//                         Creator Name: { element.creatorName }
-//                     </div>
-//                     <div className="form-group list-group-item-info">
-//                         isPublic: {element.isPublic }
-//                     </div>
-//                     <div className="form-group list-group-item-info">
-//                         Name: { element.name}
-//                     </div>
-//                     <div className="form-group list-group-item-info">
-//                         Goal: {element.goal }
-//                     </div>
-//                     <br></br>
-//                 </div>)
-//         })}
-//     </div>
-//     <Link to="/newroutine" className="link">Create Routine</Link>
-// </div>)
-// }
-
-    
-    
 
 
 const Newroutine = ({ token, routines, setRoutines }) => {
@@ -192,7 +105,7 @@ const Newroutine = ({ token, routines, setRoutines }) => {
                 const response = await createRoutine(token, name, goal, isPublic);
                 
                 setRoutines([...routines, response]);
-                history.push("/routines")
+                history.push("/myroutines")
             }
             catch (error) {
                 console.error(error)
@@ -220,5 +133,56 @@ const Newroutine = ({ token, routines, setRoutines }) => {
     )
 }
 
+const AddActivityToRoutine = ({token, id, activities}) => {
+    const [activityId, setActivityId] = useState(null);
+    const [updateCount, setUpdateCount] = useState("");
+    const [updateDuration, setUpdateDuration] = useState("");
 
-export { Myroutines, Newroutine };
+    return (
+        <div>
+                <form
+                    
+                    onSubmit={async (e) => {
+                        e.preventDefault()
+                        await attachActivityToRoutine(token, id, activityId, updateCount, updateDuration)
+                    }}
+                >
+                    <h1>Add activity</h1>
+                    <label>Choose an activity: </label>
+                    <select 
+                        name="activities" 
+                        id="activities" 
+                        required 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setActivityId(e.target.value)
+                        }}>
+                        {activities.map(activity => (
+                            <option value={activity.id} key={activity.id}>
+                                {activity.name}
+                            </option>
+                        ))}
+                    </select>
+                    <input
+                        type='number'
+                        value={updateCount}
+                        onChange={e => setUpdateCount(e.target.value)}
+                        id="updateCount"
+                        placeholder="Count"
+                    />
+                    <input
+                        type='number'
+                        value={updateDuration}
+                        onChange={e => setUpdateDuration(e.target.value)}
+                        id="updateDuration"
+                        placeholder="Duration"
+                    />
+                    <button>
+                        Add Activity To Routine
+                    </button>
+                </form>
+        </div>
+    )
+}
+
+export { MyRoutines, Newroutine, AddActivityToRoutine };
